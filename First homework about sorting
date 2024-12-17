@@ -1,0 +1,78 @@
+using System;
+using System.Threading;
+
+class Program
+{
+    //метод обмена элементов
+    static void Swap(ref int e1, ref int e2)
+    {
+        var temp = e1;
+        e1 = e2;
+        e2 = temp;
+    }
+
+    //сортировка пузырьком
+    static int[] BubbleSort(int[] array)
+    {
+        var len = array.Length;
+        for (var i = 1; i < len; i++)
+        {
+            for (var j = 0; j < len - i; j++)
+            {
+                if (array[j] > array[j + 1])
+                {
+                    Swap(ref array[j], ref array[j + 1]);
+                    Console.WriteLine(string.Join(", ", array));
+                    Thread.Sleep(1000);
+                }
+                Thread.Sleep(3000);
+            }
+        }
+
+        return array;
+    }
+    static int[] InsertionSort(int[] array)
+    {
+        for (var i = 1; i < array.Length; i++)
+        {
+            var key = array[i];
+            var j = i;
+            while ((j > 0) && (array[j - 1] > key))
+            {
+                Swap(ref array[j - 1], ref array[j]);
+                j--;
+                Console.WriteLine(string.Join(", ", array));
+                Thread.Sleep(1000);
+            }
+
+            array[j] = key;
+            Thread.Sleep(1000);
+        }
+
+        return array;
+    }
+
+    static void Main(string[] args)
+    {
+        Console.Write("Введите элементы массива: ");
+        var parts = Console.ReadLine().Split(new[] { " ", ",", ";" }, StringSplitOptions.RemoveEmptyEntries);
+        var array = new int[parts.Length];
+        for (int i = 0; i < parts.Length; i++)
+        {
+            array[i] = Convert.ToInt32(parts[i]);
+        }
+        Console.WriteLine("1. Сортировка пузырьком");
+        Console.WriteLine("2. Сортировка вставками");
+        Console.Write("Введите способ сортировки (1 или 2):");
+        string a = Console.ReadLine();
+        if (a == "1"){
+        Console.WriteLine("Сортировка пузырьком");
+        Console.WriteLine("Отсортированный массив: {0}", string.Join(", ", BubbleSort(array)));
+        }
+        else{
+            Console.WriteLine("Сортировка вставками");
+            Console.WriteLine("Упорядоченный массив: {0}", string.Join(", ", InsertionSort(array)));
+        }
+        Console.ReadLine();
+    }
+}
